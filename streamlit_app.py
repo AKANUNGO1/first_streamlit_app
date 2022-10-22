@@ -37,16 +37,16 @@ try:
 #after
   fruit_choice = streamlit.text_input('What fruit would you like information about?')
 #after
-if not fruit_choice:
-  streamlit.error("Please select a fruit to get information.")
+  if not fruit_choice:
+     streamlit.error("Please select a fruit to get information.")
   else:
     #streamlit.write('The user entered ', fruit_choice)
-    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" +fruit_choice)
+     fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" +fruit_choice)
 #In order to normalise the json data we can take the above json part from response & normalise it using pandas
-    fruityvice_normalized=pandas.json_normalize(fruityvice_response.json())
+     fruityvice_normalized=pandas.json_normalize(fruityvice_response.json())
 #the below will display the data 
-    streamlit.dataframe(fruityvice_normalized)
-  except URLError as e:
+     streamlit.dataframe(fruityvice_normalized)
+ except URLError as e:
     streamlit.error(e)
  
 #dont run anything past here while we troubleshoot
