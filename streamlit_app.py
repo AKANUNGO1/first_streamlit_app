@@ -25,10 +25,14 @@ fruits_to_show=my_fruit_list.loc[fruits_selected]
 #streamlit.dataframe(my_fruit_list)
 #display only the fruits selected in the page 
 streamlit.dataframe(fruits_to_show)
-
-#New section to display fruityvice api response
+#create the repeatable code block called a Function -new change
+def get_fruityvice_data(this_fruit_choice)
+  fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" +this_fruit_choice)
+  fruityvice_normalized=pandas.json_normalize(fruityvice_response.json())
+  return fruityvice_normalized
+#new section to display fruityvice api response
 streamlit.header("Fruityvice Fruit Advice!")
-#fruityvice_response = requests.get("https://fruityvice.com/api/fruit/kiwi")
+
 #streamlit.text(fruityvice_response.json())#Just writess the json data onto the screen
 #commented the streamlit.text part to stop the webpage from displaying the json directly 
 try:
@@ -40,12 +44,8 @@ try:
   if not fruit_choice:
      streamlit.error("Please select a fruit to get information.")
   else:
-    #streamlit.write('The user entered ', fruit_choice)
-     fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" +fruit_choice)
-#In order to normalise the json data we can take the above json part from response & normalise it using pandas
-     fruityvice_normalized=pandas.json_normalize(fruityvice_response.json())
-#the below will display the data 
-     streamlit.dataframe(fruityvice_normalized)
+     back_from_function =get_fruityvice_data(this_fruit_choice)
+     streamlit.dataframe(back_from_function)
 except URLError as e:
   streamlit.error(e)
  
