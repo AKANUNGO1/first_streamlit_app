@@ -31,14 +31,24 @@ streamlit.header("Fruityvice Fruit Advice!")
 #fruityvice_response = requests.get("https://fruityvice.com/api/fruit/kiwi")
 #streamlit.text(fruityvice_response.json())#Just writess the json data onto the screen
 #commented the streamlit.text part to stop the webpage from displaying the json directly 
-fruit_choice = streamlit.text_input('What fruit would you like information about?','apple')
-streamlit.write('The user entered ', fruit_choice)
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" +fruit_choice)
+try:
+# before
+#fruit_choice = streamlit.text_input('What fruit would you like information about?','apple')
+#after
+fruit_choice = streamlit.text_input('What fruit would you like information about?')
+#after
+if not fruit_choice:
+  streamlit.error("Please select a fruit to get information.")
+  else:
+    #streamlit.write('The user entered ', fruit_choice)
+    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" +fruit_choice)
 #In order to normalise the json data we can take the above json part from response & normalise it using pandas
-fruityvice_normalized=pandas.json_normalize(fruityvice_response.json())
+    fruityvice_normalized=pandas.json_normalize(fruityvice_response.json())
 #the below will display the data 
-streamlit.dataframe(fruityvice_normalized)
-
+    streamlit.dataframe(fruityvice_normalized)
+  except URLError as e:
+    streamlit.error(e)
+ 
 #dont run anything past here while we troubleshoot
 streamlit.stop()
 
